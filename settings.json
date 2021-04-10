@@ -1,0 +1,9 @@
+{
+	"app_name": "movie-quote-api",
+	"main_path": "/home/faran/Backup-heroku-movie-quote/",
+	"tables": [
+		"quote",
+		"role",
+		"show"
+	]
+}
