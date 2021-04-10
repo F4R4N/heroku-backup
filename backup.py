@@ -3,17 +3,27 @@
 import datetime
 import os
 import json
+import argparse
+
+parser = argparse.ArgumentParser(prog="python backup.py", )
+parser.add_argument("-s", "--settings", help="file path that contain settings. in json format.", nargs='?', default="settings.json")
 
 
-def load_settings():
+class CustomExceptions(Exception):
+	pass
+
+
+def load_settings(settings_file):
 	settings = ""
-	with open("settings.json", "r") as file:
+	with open(settings_file, "r") as file:
 		settings = file.read()
-
-	data = json.loads(settings)
-	if data["main_path"][-1] != "/":
-		data["main_path"] = data["main_path"] + "/"
-	data_list = [data["app_name"], data["main_path"], data["tables"]]
+	try:
+		data = json.loads(settings)
+		if data["main_path"][-1] != "/":
+			data["main_path"] = data["main_path"] + "/"
+		data_list = [data["app_name"], data["main_path"], data["tables"]]
+	except KeyError as error:
+		raise CustomExceptions("ERROR: {0} is not a valid setting key.".format(error.message))
 	return data_list
 
 
@@ -31,14 +41,15 @@ def backup(app_name, main_path, tables):
 
 	for command in commands:
 		print("\033[92m" + f"\n+++---------- '{command}' ----------+++\n" + "\033[0m")
-		os.system(commands[command])
+		# os.system(commands[command])
 
 		print("\u001b[34m" + "in: "+ "\033[0m" + "{0}{1}/b-{2}.csv".format(main_path, now, command))
-	print("\nDone.\u001b[34m" + "\n+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+" + "\033[0m\n")
+	print("\nDone.\n\u001b[34m" + "\n+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+" + "\033[0m\n")
 
 
 def main():
-	data = load_settings()
+	args = parser.parse_args()
+	data = load_settings(settings_file=args.settings)
 	backup(data[0], data[1], data[2])
 
 
