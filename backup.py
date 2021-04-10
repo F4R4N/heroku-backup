@@ -41,7 +41,7 @@ def backup(app_name, main_path, tables):
 
 	for command in commands:
 		print("\033[92m" + f"\n+++---------- '{command}' ----------+++\n" + "\033[0m")
-		# os.system(commands[command])
+		os.system(commands[command])
 
 		print("\u001b[34m" + "in: "+ "\033[0m" + "{0}{1}/b-{2}.csv".format(main_path, now, command))
 	print("\nDone.\n\u001b[34m" + "\n+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+" + "\033[0m\n")
