@@ -29,7 +29,7 @@ def load_settings(settings_file):
 
 def backup(app_name, main_path, tables):
 	os.chdir(main_path)
-	now = datetime.datetime.now().strftime("%y-%m-%d_%H:%M:%S")
+	now = datetime.datetime.now().strftime("%y-%m-%d_%H-%M-%S")
 	commands = {}
 	os.mkdir(now)
 	os.chdir(now)
