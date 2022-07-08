@@ -40,7 +40,7 @@ def backup(app_name, main_path, tables):
 
     for table in tables:
         commands[table] = f"heroku pg:psql -c \"\\copy (select * from {table}) to \'./b-{table}.csv\' with csv\" -a {app_name}"
-    commands["django-dumpdata"] = f"heroku run python manage.py dumpdata -a {app_name} > b-dumpdata-python.json"
+    commands["django-dumpdata"] = f"heroku run python manage.py dumpdata -a {app_name} | python -m json.tool > b-dumpdata-python.json"
 
     for name, command in commands.items():
         print("\033[92m" + f"\n+++---------- '{name}' ----------+++\n" + "\033[0m")
